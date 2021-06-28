@@ -15,3 +15,6 @@
 <p> This file contains all of the files that are used of the proceesing of the data. the following files are contained in this folder: </p>
 <p> - ChangeFileExtension.py : Script used to change the file extensions from .ome.tif to just .tif </p>
 <p> - CSV files/ CAKI2 files: In this file you will find two text files which contain feature extractions from the IDEAS software. Aswell as a a csv file which is a procseed version of the two text files. </p>
+<h1> Procedure </h1>
+<p> Files were exported from the IDEAS software as 8bit non padded images </p>
+<p> Images were then ran through the file name changing script so that image names looked like #.tif. </p>

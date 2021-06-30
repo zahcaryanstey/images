@@ -18,3 +18,9 @@
 <h1> Procedure </h1>
 <p> Files were exported from the IDEAS software as 8bit non padded images </p>
 <p> Images were then ran through the file name changing script so that image names looked like #.tif. </p>
+<h1> To Do  </h1> 
+<p> Try Images exported differnt ways from IDEAS Software.</p>
+<p> Start building trainging pipeline </p>
+<p> Focus first on channels that were used in the acqusition of the images. </p> 
+<p> Make code moduler so that you can specify which channels to use <p> 
+

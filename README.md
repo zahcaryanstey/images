@@ -13,8 +13,6 @@
 <h2> Files:  </h2>
 <h3> Cell image  </h3>
 <p> This is a file that contains a small sub set of images which was used for testing some of the scripts included in this git hub repo.</p>
-<h3> Directories </h3>
-<p> This is a word document that contains a list of the directories that I have data saved in. I use this file to keep track of the directories that I need for my code. </p>
 <h3> Processing files </h3>
 <p> This folder contains scripts that were used for processng the data before it is ran through my deep learning models. Files that are contained in this folder are  </p>
 <p> - ChangeFileExtension.py : This is a script that is used to chagne the file extensions of the images from .ome.tif to .tif.</p>

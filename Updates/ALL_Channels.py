@@ -17,18 +17,18 @@ print('Device being used :',device)
 
 Data_set = 'SKBR3'
 File_name = 'Ch1'
+learning_rate = '1e-3'
 hyperparameter = dict(
-    learning_rate = 1e-2,
+    learning_rate = 1e-3,
     batch_size = 16,
     num_epochs = 10,
     num_workers = 2,
-    model_name = 'Resnet34',
+    model_name = 'Resnet50',
 
 
 )
-"""
-Add Paths to hyperparameter dictionary above 
-"""
+
+
 csv = '/home/zachary/Desktop/DeepLearning/PreProcessing/'+ Data_set +'/' + Data_set+'.csv'
 Ch1 = '/home/zachary/Desktop/DeepLearning/Dataset/'+Data_set + '/All/Ch1'
 Ch7 = '/home/zachary/Desktop/DeepLearning/Dataset/' + Data_set + '/All/Ch7'
@@ -36,7 +36,16 @@ Ch11 = '/home/zachary/Desktop/DeepLearning/Dataset/' + Data_set + '/All/Ch11'
 train_path = '/home/zachary/Desktop/DeepLearning/PreProcessing/' + Data_set +'/'+Data_set+'train.csv'
 validation_path = '/home/zachary/Desktop/DeepLearning/PreProcessing/' + Data_set +'/'+Data_set+'test.csv'
 
-Channels = [Ch1]
+
+if File_name == 'Ch1':
+    Channels = [Ch1]
+elif File_name == 'Ch7':
+    Channels = [Ch7]
+elif File_name == 'Ch11':
+    Channels = [Ch11]
+elif File_name == 'All_Channels':
+    Channels = [Ch1,Ch7,Ch11]
+
 
 
 transform = transforms.Compose([
@@ -54,7 +63,7 @@ validation_set = CellDataset(csv_file=validation_path, root_dir=Channels, transf
 
 
 def model_pipeline(hyperparameters):
-    with wandb.init(project='HT29-All_Channels-Resnet34-Lr1e-2-SGD',config=hyperparameters):
+    with wandb.init(project='SKBR3-Varing Learning Rate- Ch1 - SGD',config=hyperparameters):
         hyperparameter = wandb.config
         model, train_loader, validation_loader,criterion,optimezer=make(hyperparameter)
         second_loss = nn.L1Loss(reduction='mean')
@@ -82,7 +91,7 @@ def make(hyperparameter): # function to make the data and the model
     elif hyperparameter.model_name == 'Resnet50':
         model = torchvision.models.resnet50(pretrained=True)
         model.conv1 = nn.Conv2d(num_channels, 64, (7, 2), padding=0, bias=False)
-        model.fc = nn.Linear(in_features=512, out_features=1)
+        model.fc = nn.Linear(in_features=2048, out_features=1)
 
     print('The number of channels is :',num_channels)
     model.to(device)
@@ -159,7 +168,7 @@ def visualize_prediction(model,dataset,num_images=10):
                  model_predicted = str(outputs[i])
                  title = (f'known NC:{ground_truth[7:15]}\u03BCm predicted NC:{model_predicted[8:14]}\u03BCm')
                  plt.title(title)
-                 plt.savefig('/home/zachary/Desktop/Research/Deep learning/CheckPoints/Resnet34/' + Data_set + '/' + File_name + '/' + str(i))  # show the image
+                 plt.savefig('/home/zachary/Desktop/Research/Deep learning/CheckPoints/Resnet18/VaryingLearningRate/' + Data_set + '/' + learning_rate +'/' +File_name + '/' + str(i))  # show the image
                  if i  == num_images: # keep going over images until num_images = images_so_far
                      return
              elif len(Channels) == 3:
@@ -177,7 +186,7 @@ def visualize_prediction(model,dataset,num_images=10):
 
                     plt.suptitle(title)
                     # plt.show()
-                    f.savefig('/home/zachary/Desktop/Research/Deep learning/CheckPoints/Resnet34/' + Data_set +'/' + File_name + '/'+ str(i)) # show the image
+                    f.savefig('/home/zachary/Desktop/Research/Deep learning/CheckPoints/Resnet18/VaryingLearningRate/' + Data_set +'/' + learning_rate + '/'+ File_name + '/'+ str(i)) # show the image
                     if i  == num_images:
                         return
 
@@ -185,7 +194,7 @@ def visualize_prediction(model,dataset,num_images=10):
 
 
 # Saving the model
-save_path = '/home/zachary/Desktop/Research/Deep learning/CheckPoints/Resnet34/' + Data_set +'/' + File_name +'/model.pth'
+save_path = '/home/zachary/Desktop/Research/Deep learning/CheckPoints/Resnet18/VaryingLearningRate/' + Data_set +'/'+ learning_rate + '/'+File_name +'/model.pth'
 torch.save(model_pipeline(hyperparameter).state_dict(), save_path)
 # mlp = model_pipeline(config)
 # mlp.load_state_dict(torch.load(save_path))
